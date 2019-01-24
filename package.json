@@ -1,0 +1,24 @@
+{
+    "name": "nodejs-server-model",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@koa/cors": "^2.2.3",
+        "bcrypt-nodejs": "0.0.3",
+        "dotenv": "^6.2.0",
+        "jsonwebtoken": "^8.3.0",
+        "koa": "^2.6.1",
+        "koa-body": "^4.0.4",
+        "koa-respond": "^2.1.0",
+        "koa-router": "^7.4.0",
+        "mongoose": "^5.3.6",
+        "validator": "^10.8.0"
+    },
+    "scripts": {
+        "start": "set NODE_ENV=DEV&&nodemon  --watch src ./src/server.js",
+        "start-prod": "set NODE_ENV=PROD&&nodemon  --watch src ./src/server.js"
+    },
+    "devDependencies": {
+        "nodemon": "^1.17.2"
+    }
+}
