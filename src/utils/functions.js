@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 
 /**
  * check if parameter is null or undefined
@@ -20,3 +21,8 @@ exports.isArray = (param) =>{
 exports.isObject = (param) =>{
     return typeof param === 'object' || param instanceof Object
 }
+
+exports.isObjectId = (id) => {
+    return mongoose.Types.ObjectId.isValid(id)
+}
+
