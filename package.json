@@ -19,6 +19,7 @@
         "start-prod": "set NODE_ENV=PROD&&nodemon  --watch src ./src/server.js"
     },
     "devDependencies": {
-        "nodemon": "^1.17.2"
+        "nodemon": "^1.17.2",
+        "replace": "^1.0.1"
     }
 }
