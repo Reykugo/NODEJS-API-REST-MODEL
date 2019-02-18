@@ -10,6 +10,6 @@ let schema = new Schema({
     createdOn: { type: Date, default: Date.now },
 })
 
-module.exports = mongoose.model('NAME', schema, 'NAME');
+module.exports = mongoose.model('Name', schema, 'NAME');
 
 

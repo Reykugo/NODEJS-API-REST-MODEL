@@ -2,6 +2,6 @@
 let {isAuthenticate} = require("../utils/middlewares");
 
 module.exports = (router) => {
-    router.use('/auth', require('./auth'))
-    router.use('api/users',isAuthenticate, require('./user'));
+    router.use('/auth', require('./auth-routes'))
+    router.use('api/users',isAuthenticate, require('./users-routes'));
 }
