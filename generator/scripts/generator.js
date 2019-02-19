@@ -1,7 +1,6 @@
 const fs = require('fs')
 const replace = require('replace')
 
-
 const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -56,8 +55,14 @@ exports.model = (modelName) =>{
 }
 
 exports.routes = (modelName) =>{
-    let filePath = `./src/api/${modelName}.js`;
+    let filePath = `./src/api/${modelName}-routes.js`;
     copyTemplate('routes.js', filePath, modelName);
-    
+    replace({
+        regex: "//...GENERATOR...",
+        replacement: `router.use('/api/${modelName}', require('./${modelName}-routes'));\n\t//...GENERATOR...`,
+        paths: ['./src/api/index.js'],
+        recursive: false,
+        silent: true,
+    });
 }
 

@@ -30,13 +30,15 @@ app.use(router.allowedMethods())
 app.use(router.routes())
 
 //Connect to database
-mongoose.Promise = global.Promise;
-mongoose.set('debug', true);
-mongoose.connect(config.DBURI, { useNewUrlParser: true}).then(() =>{
-    console.log("connected to db")
-}).catch(err =>{
-    throw(err)
-})
+if (config.DBURI){
+    mongoose.Promise = global.Promise;
+    mongoose.set('debug', true);
+    mongoose.connect(config.DBURI, { useNewUrlParser: true}).then(() =>{
+        console.log("connected to db")
+    }).catch(err =>{
+        throw(err)
+    })
+}
 
 let port = config.PORT || '8080';
 app.listen(port, () => console.log("Server running on:" + port));
