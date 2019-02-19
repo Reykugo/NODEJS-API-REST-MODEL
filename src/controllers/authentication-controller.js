@@ -6,24 +6,19 @@ const {isString} = require('../utils/functions')
 
 exports.login = async (ctx) => {
     const reqData = ctx.request.body
-    if (!isString(reqData.username) || !isString(reqData.password)) {
+    if (!isString(reqData.email) || !isString(reqData.password)) {
         return ctx.badRequest({success:false, error:"FieldsIncorrectOrMissing"})
     } else {
-        const user = await User.findOne({ username: reqData.username })
+        const user = await User.findOne({ email: reqData.email })
         if (!user) {
-            return ctx.badRequest({success:false, error:"BadUsername"});
-        } else if (user.status !== "activated") {
-            return ctx.send(403, { success: false, error: "UserNotActive" })
-        } else {
+            return ctx.badRequest({success:false, error:"BadEmail"});
+        }  else {
             const isSamePasswords = user.comparePasswords(reqData.password)
             if (isSamePasswords) {
                 const payload = {
                     id: user._id,
-                    name: user.name,
-                    username: user.username,
                     email: user.email,
                     admin: user.admin,
-                    status:user.status
                 };
 
                 // create a token string

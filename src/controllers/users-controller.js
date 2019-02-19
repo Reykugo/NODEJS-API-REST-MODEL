@@ -4,31 +4,26 @@ const {isEmpty, isString} = require('../utils/functions');
 
 exports.get = async(ctx) =>{
     let users = await User.find({})
-    return ctx.ok({success:true, users:users});
+    return ctx.ok({success:true, users:users.map( user => user.getInfo())});
 }
 
 exports.getUser = async(ctx) =>{
     let id = ctx.params.id
     let user = await User.findById(id);
-    return ctx.ok({success:true, user:user})
+    return ctx.ok({success:true, user:user.getInfo()})
 }
 
 exports.create = async(ctx) => {
     const reqData = ctx.request.body;
-    if(!isString(reqData.username) || !isString(reqData.password) || !isString(reqData.email)|| !validator.isEmail(reqData.email)){
+    if(!isString(reqData.password) || !isString(reqData.email)|| !validator.isEmail(reqData.email)){
         return ctx.badRequest({success:false, error: 'FieldIncorrectOrMissing'})
     }else{
         const userData = {
-            name: reqData.name,
-            username: reqData.username,
             password: reqData.password,
             email: reqData.email.trim(),
             status: reqData.status
         }
-        const userExist = await User.findOne({$or: [
-            { email: userData.email },
-            { username: userData.username }
-        ]})
+        const userExist = await User.findOne({ email: userData.email });
         if(userExist){
             ctx.badRequest('UserAlreadyExists')
         }else{
@@ -48,8 +43,16 @@ exports.update = async(ctx) =>{
     const id = ctx.params.id;
     const reqData = ctx.request.body; 
     if (ctx.auth.id === id || ctx.auth.admin) {
-        let user = await User.findByIdAndUpdate(id, { $set: reqData }, { new: true })
-        return ctx.ok({ success: true, user: user.getInfo()})
+        if(reqData.email && await User.findOne({email:reqData.email, _id:{ $ne: id }})){
+            return ctx.badRequest({success:false, error:"EmailAlreadyExists"}) 
+        }else{
+            let user = await User.findById(id)
+            user = Object.assign(user, reqData);
+            user.save()
+            return ctx.ok({ success: true, user: user.getInfo()})
+        }
+
+        
     } else {
         return ctx.send(401, { success: false, error: "PermissionDenied" })
     }

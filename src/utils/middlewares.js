@@ -4,7 +4,7 @@ const { isObjectId } = require('../utils/functions');
 
 exports.isAuthenticate = async (ctx, next) => {
     let req = ctx.request;
-    let token = req.body.token || req.query.token || req.headers["x-access-token"] || req.headers["authorization"].split(" ")[1] || req.cookies.token;
+    let token = req.body.token || req.query.token || req.headers["x-access-token"] || (req.headers["authorization"] && req.headers["authorization"].split(" ")[1]);
     if (token) {
         let decoded = null;
         try{
@@ -13,12 +13,9 @@ exports.isAuthenticate = async (ctx, next) => {
             console.log(err)
             return ctx.badRequest({ success: false, error: "BadToken" });
         }
-        if (decoded.status === "activated") {
-            ctx.auth = decoded
-            await next();
-        } else {
-            return ctx.send(403, { success: false, error: "UserNotActive" })
-        }
+        ctx.auth = decoded
+        await next();
+       
     } else {
         return ctx.send(403, {success: false, error: "NotTokenProvided"})
     }

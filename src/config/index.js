@@ -1,6 +1,7 @@
 
 function getEnvValue(envName){
-    return process.env[`${envName}_${process.env.NODE_ENV}`]
+    const key = process.env.NODE_ENV?`${envName}_${process.env.NODE_ENV}`.trim():`${envName}_DEV}`
+    return process.env[key]
 }
 
 module.exports = {
