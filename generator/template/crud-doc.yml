@@ -4,8 +4,6 @@
       tags:
         - ..Generator..
       summary: Get all ..Generator..
-      security:
-        - bearerAuth: []
       responses:
           200: 
             description: return list of all ..generator..
@@ -33,8 +31,6 @@
       tags:
         - ..Generator..
       summary: Get a ..generator.. with a id
-      security:
-        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -54,8 +50,6 @@
       tags:
         - ..Generator..
       summary: Update an existing ..generator..
-      security:
-        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -84,8 +78,6 @@
       tags:
         - ..Generator..
       summary: Delete an existing ..generator..
-      security:
-        - bearerAuth: []
       parameters:
         - name: id
           in: path

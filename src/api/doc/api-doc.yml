@@ -38,6 +38,8 @@ paths:
       responses:
         200:
           description: return jwt Bearer token
+        400:
+          $ref: '#/components/responses/BadRequest'
   /users:
     get:
       tags:

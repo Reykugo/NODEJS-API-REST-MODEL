@@ -37,7 +37,7 @@ const replaceInDoc = (modelName) =>{
     replace({
         regex: "..Generator..",
         replacement: capitalize(modelName.toLowerCase()),
-        paths: ["./src/api/doc/api.yml"],
+        paths: ["./src/api/doc/api-doc.yml"],
         recursive: true,
         silent: true,
     });
@@ -45,7 +45,7 @@ const replaceInDoc = (modelName) =>{
     replace({
         regex: "..generator..",
         replacement: modelName.toLowerCase(),
-        paths: ["./src/api/doc/api.yml"],
+        paths: ["./src/api/doc/api-doc.yml"],
         recursive: true,
         silent: true,
     });
@@ -71,12 +71,12 @@ exports.model = (modelName) =>{
     let filePath = `./src/models/${modelName}-model.js`;
     copyTemplate('model.js', filePath, modelName);
     try {
-        let doc = yaml.safeLoad(fs.readFileSync("./src/api/doc/api.yml", 'utf8'));
+        let doc = yaml.safeLoad(fs.readFileSync("./src/api/doc/api-doc.yml", 'utf8'));
         let model = yaml.safeLoad(fs.readFileSync('./generator/template/model-doc.yml', 'utf8'));
         if(!(capitalize(modelName.toLowerCase()) in doc.components.schemas)){
             doc.components.schemas = Object.assign(doc.components.schemas, model)
         }
-        fs.writeFileSync("./src/api/doc/api.yml", yaml.safeDump(doc), "utf8")
+        fs.writeFileSync("./src/api/doc/api-doc.yml", yaml.safeDump(doc), "utf8")
         replaceInDoc(modelName)
     } catch (e) {
         console.log(e);
@@ -95,10 +95,10 @@ exports.routes = (modelName) =>{
         silent: true,
     });
     try {
-        let doc = yaml.safeLoad(fs.readFileSync("./src/api/doc/api.yml", 'utf8'));
+        let doc = yaml.safeLoad(fs.readFileSync("./src/api/doc/api-doc.yml", 'utf8'));
         let model = yaml.safeLoad(fs.readFileSync('./generator/template/crud-doc.yml', 'utf8'));
         doc.paths = Object.assign(doc.paths, model)
-        fs.writeFileSync("./src/api/doc/api.yml", yaml.safeDump(doc), "utf8")
+        fs.writeFileSync("./src/api/doc/api-doc.yml", yaml.safeDump(doc), "utf8")
         replaceInDoc(modelName)
     } catch (e) {
         console.log(e);
