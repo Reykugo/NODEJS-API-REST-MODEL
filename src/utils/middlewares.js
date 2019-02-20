@@ -11,13 +11,13 @@ exports.isAuthenticate = async (ctx, next) => {
             decoded = await jwt.verify(token, config.JWTSECRET)
         }catch(err){
             console.log(err)
-            return ctx.badRequest({ success: false, error: "BadToken" });
+            return ctx.badRequest({error: "BadToken" });
         }
         ctx.auth = decoded
         await next();
        
     } else {
-        return ctx.send(403, {success: false, error: "NotTokenProvided"})
+        return ctx.send(401, { error: "NotTokenProvided"})
     }
 }
 
@@ -26,7 +26,7 @@ exports.isAdmin = async (ctx, next) =>{
     if(auth.admin){
         await next();
     }else{
-        return ctx.send(401, {success:false, message:"PermissionDenied"})
+        return ctx.send(401, {error:"PermissionDenied"})
     }
 
 }
@@ -34,7 +34,7 @@ exports.isAdmin = async (ctx, next) =>{
 exports.idIsValid = async (ctx, next) => {
     let id = ctx.params.id
     if (!isObjectId(id)) {
-        return ctx.badRequest({ success: false, message: "BadId" })
+        return ctx.badRequest({error: "BadId" })
     }
     else {
         await next()

@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config'); 
-const User = require('../models/user-model');
+const User = require('../models/users-model');
 const {isString} = require('../utils/functions')
 
 
 exports.login = async (ctx) => {
     const reqData = ctx.request.body
     if (!isString(reqData.email) || !isString(reqData.password)) {
-        return ctx.badRequest({success:false, error:"FieldsIncorrectOrMissing"})
+        return ctx.badRequest({error:"FieldsIncorrectOrMissing"})
     } else {
         const user = await User.findOne({ email: reqData.email })
         if (!user) {
-            return ctx.badRequest({success:false, error:"BadEmail"});
+            return ctx.badRequest({error:"BadEmail"});
         }  else {
             const isSamePasswords = user.comparePasswords(reqData.password)
             if (isSamePasswords) {
@@ -23,9 +23,9 @@ exports.login = async (ctx) => {
 
                 // create a token string
                 const token = await jwt.sign(payload, config.JWTSECRET);
-                ctx.ok({ success: true, token: token });
+                ctx.ok({token: token });
             } else {
-                return ctx.badRequest({success:false, error:"BadPassword"});
+                return ctx.badRequest({error:"BadPassword"});
             }
         }
 

@@ -12,6 +12,7 @@
         "koa-respond": "^2.1.0",
         "koa-router": "^7.4.0",
         "mongoose": "^5.3.6",
+        "swagger2-koa": "^1.0.3",
         "validator": "^10.8.0"
     },
     "scripts": {
@@ -19,6 +20,7 @@
         "start-prod": "set NODE_ENV=PROD&&nodemon  --watch src ./src/server.js"
     },
     "devDependencies": {
+        "js-yaml": "^3.12.1",
         "nodemon": "^1.17.2",
         "replace": "^1.0.1"
     }

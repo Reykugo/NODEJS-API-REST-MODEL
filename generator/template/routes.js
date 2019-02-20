@@ -4,7 +4,7 @@ const { isAdmin, idIsValid } = require('../utils/middlewares');
 
 const router = new Router();
 
-router.get('/', Users.get)
+router.get('/', Name.get)
 router.get('/:id', idIsValid, Name.getName)
 router.post('/', Name.create)
 router.delete('/:id', idIsValid, Name.delete);

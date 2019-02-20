@@ -1,7 +1,7 @@
 require('dotenv').config()
 const config = require("../../config");
 var mongoose = require("mongoose");
-require('../../models/user-model')
+require('../../models/users-model')
 
 //Connect to database
 mongoose.Promise = global.Promise;

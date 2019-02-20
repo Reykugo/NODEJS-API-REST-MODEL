@@ -4,7 +4,7 @@ let {isAuthenticate} = require("../utils/middlewares");
 /**WARNING: Please note ...GENERATOR... should not be modified or deleted */
 
 module.exports = (router) => {
-    router.use('/auth', require('./auth-routes'));
-    router.use('/api/users',isAuthenticate, require('./users-routes'));
+    router.use('/api/auth', require('./auth-routes'));
+    router.use('/api/users', require('./users-routes'));
 	//...GENERATOR...
 }

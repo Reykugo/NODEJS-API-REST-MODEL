@@ -1,12 +1,17 @@
 require("dotenv").config();
 const config = require('./config');
-const Koa = require('koa');;
+const Koa = require('koa');
 const mongoose = require("mongoose");
 const Router = require("koa-router");
 const cors = require("@koa/cors")
+const swagger = require( 'swagger2');
+const {ui} = require( 'swagger2-koa');
 
 const app = new Koa();
 const router = new Router()
+
+
+const document = swagger.loadDocumentSync(__dirname + '/api/doc/api-doc.yml');
 
 
 require('./api')(router)
@@ -15,6 +20,7 @@ app.use(cors());
 app.use(require("koa-body")());
 app.use(require('koa-respond')())
 
+app.use(ui(document,"/",['/api']));
 
 app.use(async (ctx, next) => {
     try {

@@ -47,6 +47,6 @@ schema.methods.getInfo = function (){
     }
 }
 
-module.exports = mongoose.model('User', schema, 'user');
+module.exports = mongoose.model('Users', schema, 'users');
 
 
