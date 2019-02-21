@@ -1,13 +1,13 @@
 const Router = require('koa-router');
-const Name = require('../controllers/name-controller');
+const Names = require('../controllers/names-controller');
 const { isAdmin, idIsValid } = require('../utils/middlewares');
 
 const router = new Router();
 
-router.get('/', Name.get)
-router.get('/:id', idIsValid, Name.getName)
-router.post('/', Name.create)
-router.delete('/:id', idIsValid, Name.delete);
-router.put('/:id', idIsValid, Name.update)
+router.get('/', Names.get)
+router.get('/:id', idIsValid, Names.getName)
+router.post('/', Names.create)
+router.delete('/:id', idIsValid, Names.delete);
+router.put('/:id', idIsValid, Names.update)
 
 module.exports = router.routes(); 

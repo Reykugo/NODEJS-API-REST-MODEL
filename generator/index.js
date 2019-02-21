@@ -10,7 +10,7 @@ if (process.argv.length < 3 ){
     return console.warn("need argument 'component name'")
 }
 
-let component = process.argv[2];
+let component = process.argv[2].trim();
 if(!isInArgs("--noController")){
     generator.controller(component)
 }

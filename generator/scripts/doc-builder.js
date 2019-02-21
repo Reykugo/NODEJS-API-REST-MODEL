@@ -1,23 +1,30 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const replace = require("replace");
-
-const capitalize = (s) => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
-const removeFromArray = (array, item) => {
-    var index = array.indexOf(item);
-    if (index > -1) {
-        array.splice(index, 1);
-    }
-}
+const pluralize = require('pluralize');
+const {capitalize, removeFromArray} = require('../_common');
 
 const launchReplace = (component, destPath) => {
+
+    replace({
+        regex: "..Generators..",
+        replacement: pluralize.plural(capitalize(component.toLowerCase())),
+        paths: [destPath],
+        recursive: true,
+        silent: true,
+    });
+
+    replace({
+        regex: "..generators..",
+        replacement: pluralize.plural(component.toLowerCase()),
+        paths: [destPath],
+        recursive: true,
+        silent: true,
+    });
+
     replace({
         regex: "..Generator..",
-        replacement: capitalize(component.toLowerCase()),
+        replacement: pluralize.singular(capitalize(component.toLowerCase())),
         paths: [destPath],
         recursive: true,
         silent: true,
@@ -25,16 +32,22 @@ const launchReplace = (component, destPath) => {
 
     replace({
         regex: "..generator..",
-        replacement: component.toLowerCase(),
+        replacement: pluralize.singular(component.toLowerCase()),
         paths: [destPath],
         recursive: true,
         silent: true,
     });
+
+
+
+    
+
+
 }
 
 exports.generateComponentDoc = (component) => {
     try {
-        let destPath = `./src/api/doc/components/_${component.toLowerCase()}.yml`
+        let destPath = `./src/api/doc/components/_${pluralize.plural(component.toLowerCase())}.yml`
         fs.copyFileSync(`./generator/template/component-doc.yml`, destPath);
         launchReplace(component, destPath)
         console.log(`${destPath} has been created`)
@@ -45,7 +58,6 @@ exports.generateComponentDoc = (component) => {
 }
 
 exports.build = (exlude) =>{
-    console.log("##########DOC BUILDER##########")
     let componentsDoc = fs.readdirSync("./src/api/doc/components");
     removeFromArray(componentsDoc, "_header.yml");
     if (exlude && Array.isArray(exlude)){
@@ -55,9 +67,7 @@ exports.build = (exlude) =>{
     }
 
     let headerComponent = yaml.safeLoad(fs.readFileSync('./src/api/doc/components/_header.yml', 'utf8'));
-    /*console.log(headerComponent.tags)
-    console.log(headerComponent.paths)
-    console.log(headerComponent.components.schemas)*/
+    //init keys if null
     if (!headerComponent.tags) {
         headerComponent.tags = []
     }
@@ -71,7 +81,7 @@ exports.build = (exlude) =>{
 
     for(let component of componentsDoc){
         try {
-            let componentDoc = yaml.safeLoad(fs.readFileSync(`./src/api/doc/components/${component.toLowerCase()}`, 'utf8'));
+            let componentDoc = yaml.safeLoad(fs.readFileSync(`./src/api/doc/components/${component}`, 'utf8'));
 
             if(componentDoc.tags){
                 headerComponent.tags = headerComponent.tags.concat(componentDoc.tags);
@@ -87,5 +97,5 @@ exports.build = (exlude) =>{
         }
     }
     fs.writeFileSync("./src/api/doc/api-doc.yml", yaml.safeDump(headerComponent), "utf8");
-    console.log("############################")
+    console.log("#### Doc has been build ####")
 }

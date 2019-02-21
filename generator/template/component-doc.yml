@@ -2,21 +2,21 @@
 openapi: 3.0.0
 
 tags:
-  - name: ..Generator..
-    description: Everything about ..Generator..
+  - name: ..Generators..
+    description: Everything about ..Generators..
 
 paths:
-  /..generator..:
+  /..generators..:
       get:
         tags:
-          - ..Generator..
-        summary: Get all ..Generator..
+          - ..Generators..
+        summary: Get all ..Generators..
         responses:
             200: 
-              description: return list of all ..generator..
+              description: return list of all ..generators..
       post:
         tags:
-          - ..Generator..
+          - ..Generators..
         summary: Add a new ..generator.. to the store
         requestBody:
           required: true
@@ -33,10 +33,10 @@ paths:
                   $ref: '#/components/schemas/..Generator..'
           400:
             $ref: '#/components/responses/BadRequest'
-  /..generator../{id}:
+  /..generators../{id}:
       get:
         tags:
-          - ..Generator..
+          - ..Generators..
         summary: Get a ..generator.. with a id
         parameters:
           - name: id
@@ -55,7 +55,7 @@ paths:
                   $ref: '#/components/schemas/..Generator..'
       put:
         tags:
-          - ..Generator..
+          - ..Generators..
         summary: Update an existing ..generator..
         parameters:
           - name: id
@@ -83,12 +83,12 @@ paths:
             $ref: '#/components/responses/Unauthorized'
       delete:
         tags:
-          - ..Generator..
+          - ..Generators..
         summary: Delete an existing ..generator..
         parameters:
           - name: id
             in: path
-            description: User ID
+            description: ..generator.. ID
             required: true
             schema:
               type: integer
