@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  description: This is a sample server model based on koa with JWT authentication.
+  version: 1.0.0
+  title: NODE API REST MODEL
+  contact:
+    email: youremail@email.com
+servers:
+  - url: 'http://localhost:8080/api'
+    description: Server model
+tags:
+paths:
+
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            required:
+              - error
+            example:
+              error: NotFound
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            required:
+              - error
+            example:
+              error: BadRequest
+    Unauthorized:
+      description: Authorization information is missing or invalid.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            required:
+              - message
+            example:
+              error: PermissionDenied
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:

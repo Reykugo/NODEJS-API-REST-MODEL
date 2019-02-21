@@ -10,16 +10,21 @@ if (process.argv.length < 3 ){
     return console.warn("need argument 'component name'")
 }
 
-let modelName = process.argv[2];
+let component = process.argv[2];
 if(!isInArgs("--noController")){
-    generator.controller(modelName)
+    generator.controller(component)
 }
 if(!isInArgs("--noModel")){
-    generator.model(modelName)
+    generator.model(component)
 }
 if(!isInArgs("--noRoutes")){
-    generator.routes(modelName)
+    generator.routes(component)
 }
+
+if(!isInArgs("--noDoc")){
+    generator.doc(component)
+}
+
 console.log("#####################")
 
 

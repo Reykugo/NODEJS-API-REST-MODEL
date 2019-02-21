@@ -1,0 +1,40 @@
+---
+openapi: 3.0.0
+
+tags:
+  - name: Authentication
+    description: Everything about Authentication
+
+paths:
+  /auth:
+    post:
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authentication'
+      responses:
+        200:
+          description: return jwt Bearer token
+        400:
+          $ref: '#/components/responses/BadRequest'
+
+components:
+  schemas:
+    Authentication:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - password
+      example:
+        email: JohnDoe@gmail.com
+        password: "password"
+    

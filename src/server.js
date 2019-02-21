@@ -6,11 +6,13 @@ const Router = require("koa-router");
 const cors = require("@koa/cors")
 const swagger = require( 'swagger2');
 const {ui} = require( 'swagger2-koa');
+const docBuilder = require('../generator/scripts/doc-builder');
 
 const app = new Koa();
 const router = new Router()
 
 
+docBuilder.build();
 const document = swagger.loadDocumentSync(__dirname + '/api/doc/api-doc.yml');
 
 

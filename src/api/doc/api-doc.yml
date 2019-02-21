@@ -1,22 +1,20 @@
 openapi: 3.0.0
-
 info:
   description: This is a sample server model based on koa with JWT authentication.
   version: 1.0.0
   title: NODE API REST MODEL
   contact:
     email: youremail@email.com
-    
 servers:
-  - url: http://localhost:8080/api
+  - url: 'http://localhost:8080/api'
     description: Server model
-    
 tags:
   - name: Authentication
     description: Everything about Authentication
+  - name: Posts
+    description: Everything about Posts
   - name: Users
     description: Everything about Users
-
 paths:
   /auth:
     post:
@@ -26,20 +24,107 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-               properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              example:
-                email: user@email.com
-                password: password
+            schema:
+              $ref: '#/components/schemas/Authentication'
       responses:
-        200:
+        '200':
           description: return jwt Bearer token
-        400:
+        '400':
           $ref: '#/components/responses/BadRequest'
+  /posts:
+    get:
+      tags:
+        - Posts
+      summary: Get all Posts
+      responses:
+        '200':
+          description: return list of all posts
+    post:
+      tags:
+        - Posts
+      summary: Add a new posts to the store
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Posts'
+      responses:
+        '200':
+          description: return created posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  '/posts/{id}':
+    get:
+      tags:
+        - Posts
+      summary: Get a posts with a id
+      parameters:
+        - name: id
+          in: path
+          description: Posts ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Return a posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posts'
+    put:
+      tags:
+        - Posts
+      summary: Update an existing posts
+      parameters:
+        - name: id
+          in: path
+          description: Posts ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Posts'
+      responses:
+        '200':
+          description: Return updated posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posts'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+        - Posts
+      summary: Delete an existing posts
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /users:
     get:
       tags:
@@ -48,8 +133,8 @@ paths:
       security:
         - bearerAuth: []
       responses:
-          200: 
-            description: return list of all users
+        '200':
+          description: return list of all users
     post:
       tags:
         - Users
@@ -62,16 +147,15 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        200:
+        '200':
           description: return created user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-        400:
+        '400':
           $ref: '#/components/responses/BadRequest'
-        
-  /users/{userId}:
+  '/users/{userId}':
     get:
       tags:
         - Users
@@ -87,7 +171,7 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        '200':
           description: Return a user
           content:
             application/json:
@@ -114,15 +198,15 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        200:
-         description: Return updated user
-         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        400:
+        '200':
+          description: Return updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
           $ref: '#/components/responses/BadRequest'
-        401:
+        '401':
           $ref: '#/components/responses/Unauthorized'
     delete:
       tags:
@@ -139,13 +223,12 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        '200':
           description: Success
-        401:
-          $ref: '#/components/responses/Unauthorized'
-        400:
+        '400':
           $ref: '#/components/responses/BadRequest'
-        
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 components:
   responses:
     NotFound:
@@ -161,7 +244,6 @@ components:
               - error
             example:
               error: NotFound
-              
     BadRequest:
       description: Bad request
       content:
@@ -175,7 +257,6 @@ components:
               - error
             example:
               error: BadRequest
-              
     Unauthorized:
       description: Authorization information is missing or invalid.
       content:
@@ -189,14 +270,33 @@ components:
               - message
             example:
               error: PermissionDenied
-            
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    
   schemas:
+    Authentication:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - password
+      example:
+        email: JohnDoe@gmail.com
+        password: password
+    Posts:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+        - id
+      example: null
     User:
       type: object
       properties:
