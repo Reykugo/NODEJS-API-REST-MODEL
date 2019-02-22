@@ -5,7 +5,6 @@ const pluralize = require('pluralize');
 const {capitalize, removeFromArray} = require('../_common');
 
 const launchReplace = (component, destPath) => {
-
     replace({
         regex: "..Generators..",
         replacement: pluralize.plural(capitalize(component.toLowerCase())),
@@ -37,20 +36,18 @@ const launchReplace = (component, destPath) => {
         recursive: true,
         silent: true,
     });
-
-
-
-    
-
-
 }
 
 exports.generateComponentDoc = (component) => {
     try {
         let destPath = `./src/api/doc/components/_${pluralize.plural(component.toLowerCase())}.yml`
-        fs.copyFileSync(`./generator/template/component-doc.yml`, destPath);
-        launchReplace(component, destPath)
-        console.log(`${destPath} has been created`)
+        if(!fs.existsSync(destPath)){
+            fs.copyFileSync(`./generator/template/component-doc.yml`, destPath);
+            launchReplace(component, destPath)
+            console.log(`${destPath} has been created`)
+        }else{
+            console.log(`${destPath} already exists`)
+        }
     } catch (err) {
         console.error(err)
     }

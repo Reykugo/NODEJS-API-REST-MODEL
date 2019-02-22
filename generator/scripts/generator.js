@@ -41,9 +41,13 @@ const launchReplace = (component, filePath) =>{
 
 const copyTemplate = (templateName, destPath, component) =>{
     try{
-        fs.copyFileSync(`./generator/template/${templateName}`, destPath);
-        launchReplace(component, destPath)
-        console.log(`${destPath} has been created`)
+        if(!fs.existsSync(destPath)){
+            fs.copyFileSync(`./generator/template/${templateName}`, destPath);
+            launchReplace(component, destPath)
+            console.log(`${destPath} has been created`)
+        }else{
+            console.log(`${destPath} already exists`)
+        }
     }catch(err){
         console.error(err)
     }
