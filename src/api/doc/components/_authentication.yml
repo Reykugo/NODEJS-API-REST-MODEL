@@ -16,9 +16,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Authentication'
+            example:
+              email: JohnDoe@gmail.com
+              password: "password"
       responses:
         200:
           description: return jwt Bearer token
+          content:
+            application/json:
+              example:
+                token: a token contain payload {id, email, admin} of user
+              
         400:
           $ref: '#/components/responses/BadRequest'
 
@@ -34,7 +42,5 @@ components:
       required:
         - id
         - password
-      example:
-        email: JohnDoe@gmail.com
-        password: "password"
+      
     

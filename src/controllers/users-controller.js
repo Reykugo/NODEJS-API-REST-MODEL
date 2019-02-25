@@ -51,7 +51,7 @@ exports.update = async(ctx) =>{
             if(userIsNotValid){
                 return ctx.badRequest({error:"FieldIncorrectOrMissing"})
             }else{
-                user.save()
+                await user.save()
                 return ctx.ok({user: user})
             }
         }       

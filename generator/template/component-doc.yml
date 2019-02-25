@@ -109,6 +109,4 @@ components:
         id:
           type: integer
       required:
-        - id
-      example:
-    
+        - id    

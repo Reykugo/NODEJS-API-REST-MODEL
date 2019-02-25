@@ -16,6 +16,10 @@ paths:
       responses:
         '200':
           description: return list of all users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     post:
       tags:
         - Users
@@ -27,6 +31,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+            example:
+              email: user@email.com
+              password: password
       responses:
         '200':
           description: return created user
@@ -34,6 +41,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              example:
+                id: 5c740a7de95c6ee5b1c00640
+                email: "JohnDoe@email.com"
+                createdOn: 2019-02-25 16:32:13.077
         '400':
           $ref: '#/components/responses/BadRequest'
   /users/{userId}:
@@ -58,6 +69,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              example:
+                id: 5c740a7de95c6ee5b1c00640
+                email: "JohnDoe@email.com"
+                createdOn: 2019-02-25 16:32:13.077
     put:
       tags:
         - Users
@@ -78,6 +93,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+            example:
+              email: user@email.com
+              password: password
       responses:
         '200':
           description: Return updated user
@@ -85,6 +103,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              example:
+                id: 5c740a7de95c6ee5b1c00640
+                email: "JohnDoe@email.com"
+                createdOn: 2019-02-25 16:32:13.077
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -126,7 +148,5 @@ components:
         - id
         - email
         - password
-      example:
-        email: user@email.com
-        password: password
+       
     
