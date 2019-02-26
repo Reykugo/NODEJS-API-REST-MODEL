@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fs = require('fs');
 const yaml = require('js-yaml');
 const replace = require("replace");
@@ -64,6 +65,7 @@ exports.build = (exlude) =>{
     }
 
     let headerComponent = yaml.safeLoad(fs.readFileSync('./src/api/doc/components/_header.yml', 'utf8'));
+    headerComponent.servers[0].url = `http://localhost:${process.env.PORT_DEV}/api`
     //init keys if null
     if (!headerComponent.tags) {
         headerComponent.tags = []
