@@ -52,6 +52,8 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/..Generator..'
+          404:
+            $ref: "#/components/responses/NotFound"
       put:
         tags:
           - ..Generators..
@@ -79,6 +81,8 @@ paths:
             $ref: '#/components/responses/BadRequest'
           401:
             $ref: '#/components/responses/Unauthorized'
+          404:
+            $ref: "#/components/responses/NotFound"
       delete:
         tags:
           - ..Generators..
@@ -97,6 +101,8 @@ paths:
             $ref: '#/components/responses/Unauthorized'
           400:
             $ref: '#/components/responses/BadRequest'
+          404:
+            $ref: "#/components/responses/NotFound"
 
 components:
   schemas:

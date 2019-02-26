@@ -9,7 +9,10 @@ exports.getUser = async(ctx) =>{
     let id = ctx.params.id
     if(ctx.auth.id === id || ctx.auth.admin){
         let user = await User.findById(id);
-        return ctx.ok({user:user})
+        if(user)
+            return ctx.ok({user:user})
+        else
+            return ctx.notFound({error:"NotFound"})
     }else{
         return ctx.send(401, {error:"PermissionDenied"})
     }
@@ -35,7 +38,7 @@ exports.create = async(ctx) => {
 exports.delete = async(ctx) =>{
     const id = ctx.params.id;
     await User.findByIdAndRemove(id);
-    return ctx.ok({})
+    return ctx.ok()
 }
 
 exports.update = async(ctx) =>{
@@ -46,13 +49,17 @@ exports.update = async(ctx) =>{
             return ctx.badRequest({error:"EmailAlreadyExists"}) 
         }else{
             let user = await User.findById(id)
-            user = Object.assign(user, reqData);
-            let userIsNotValid = user.validateSync()
-            if(userIsNotValid){
-                return ctx.badRequest({error:"FieldIncorrectOrMissing"})
+            if(user){
+                user = Object.assign(user, reqData);
+                let userIsNotValid = user.validateSync()
+                if(userIsNotValid){
+                    return ctx.badRequest({error:"FieldIncorrectOrMissing"})
+                }else{
+                    await user.save()
+                    return ctx.ok({user: user})
+                }
             }else{
-                await user.save()
-                return ctx.ok({user: user})
+                return ctx.notFound({error:"NotFound"})
             }
         }       
     } else {
