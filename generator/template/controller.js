@@ -1,6 +1,6 @@
 const validator = require('validator');
 const Name = require('../models/name-model');
-const { isEmpty, isString } = require('../utils/functions');
+const { isEmpty, isString, exludeFromObject } = require('../utils/functions');
 
 exports.get = async (ctx) => {
     return ctx.ok({})

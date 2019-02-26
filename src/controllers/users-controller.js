@@ -1,4 +1,5 @@
 const User = require('../models/user-model');
+const {exludeFromObject} = require('../utils/functions')
 
 exports.get = async(ctx) =>{
     let users = await User.find({})
@@ -19,7 +20,7 @@ exports.getUser = async(ctx) =>{
 }
 
 exports.create = async(ctx) => {
-    const reqData = ctx.request.body;
+    const reqData = exludeFromObject(ctx.request.body, ["_id"]);
     let user = new User(reqData)
     let userIsNotvalid = user.validateSync()
     if(userIsNotvalid){
@@ -43,7 +44,7 @@ exports.delete = async(ctx) =>{
 
 exports.update = async(ctx) =>{
     const id = ctx.params.id;
-    const reqData = ctx.request.body; 
+    const reqData = exludeFromObject(ctx.request.body, ["_id"]);
     if (ctx.auth.id === id) {
         if(reqData.email && await User.findOne({email:reqData.email, _id:{ $ne: id }})){
             return ctx.badRequest({error:"EmailAlreadyExists"}) 

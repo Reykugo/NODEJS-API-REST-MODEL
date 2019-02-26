@@ -26,3 +26,12 @@ exports.isObjectId = (id) => {
     return mongoose.Types.ObjectId.isValid(id)
 }
 
+//remove keys from object: (Object, Array)
+exports.exludeFromObject = (object, exludes) => {
+    for(let value of exludes){
+        if(value in object)
+            delete object[value]
+    }
+    return object  
+}
+
