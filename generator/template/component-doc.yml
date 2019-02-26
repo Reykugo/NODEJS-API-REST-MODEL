@@ -44,8 +44,7 @@ paths:
             description: ..Generator.. ID
             required: true
             schema:
-              type: integer
-              format: int64
+              type: string
         responses:
           200:
             description: Return a ..generator..
@@ -63,8 +62,7 @@ paths:
             description: ..Generator.. ID
             required: true
             schema:
-              type: integer
-              format: int64
+              type: string
         requestBody:
           content:
             application/json:
@@ -91,8 +89,7 @@ paths:
             description: ..generator.. ID
             required: true
             schema:
-              type: integer
-              format: int64
+              type: string
         responses:
           200:
             description: Success
@@ -107,6 +104,6 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
       required:
         - id    

@@ -60,8 +60,7 @@ paths:
           description: User ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: Return a user
@@ -86,8 +85,7 @@ paths:
           description: User ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       requestBody:
         content:
           application/json:
@@ -123,8 +121,7 @@ paths:
           description: User ID
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: Success
@@ -139,7 +136,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         email:
           type: string
         password:
