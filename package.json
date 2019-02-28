@@ -21,6 +21,7 @@
     },
     "devDependencies": {
         "js-yaml": "^3.12.1",
+        "minimist": "^1.2.0",
         "nodemon": "^1.17.2",
         "pluralize": "^7.0.0",
         "replace": "^1.0.1"
