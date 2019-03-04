@@ -30,7 +30,7 @@ exports.create = async(ctx) => {
         if(userExist){
             ctx.badRequest('UserAlreadyExists')
         }else{
-            let user = await new User(reqData).save()
+            let user = await user.save()
             return ctx.ok({user:user})
         }
     }
