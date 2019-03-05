@@ -55,8 +55,13 @@ exports.generateComponentDoc = (component) => {
    
 }
 
-exports.build = (exlude) =>{
+exports.build = (order, exlude) =>{
     let componentsDoc = fs.readdirSync("./src/api/doc/components");
+    if(order && Array.isArray(order)){
+        componentsDoc.sort(function(a, b){
+            return order.indexOf(a) - order.indexOf(b)
+        })
+    }
     removeFromArray(componentsDoc, "_header.yml");
     if (exlude && Array.isArray(exlude)){
         for(let item of exlude){
