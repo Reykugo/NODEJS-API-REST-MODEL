@@ -1,5 +1,4 @@
 const Name = require('../models/name-model');
-const { isEmpty, isString, exludeFromObject } = require('../utils/functions');
 
 exports.get = async (ctx) => {
     return ctx.ok({})

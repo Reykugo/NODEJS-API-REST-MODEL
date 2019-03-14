@@ -17,9 +17,11 @@
     },
     "scripts": {
         "start": "set NODE_ENV=DEV&&nodemon  --watch src ./src/server.js",
-        "start-prod": "set NODE_ENV=PROD&&nodemon  --watch src ./src/server.js"
+        "start-prod": "set NODE_ENV=PROD&&nodemon  --watch src ./src/server.js",
+        "lint": "eslint . --ext js --ignore-pattern node_modules/"
     },
     "devDependencies": {
+        "eslint": "^5.15.1",
         "js-yaml": "^3.12.1",
         "minimist": "^1.2.0",
         "nodemon": "^1.17.2",

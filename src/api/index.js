@@ -1,5 +1,4 @@
 //instantiate api routes
-let {isAuthenticate} = require("../utils/middlewares");
 
 /**WARNING: Please note ...GENERATOR... should not be modified or deleted */
 

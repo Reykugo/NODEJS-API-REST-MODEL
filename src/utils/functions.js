@@ -15,7 +15,7 @@ exports.isString = (param) =>{
 }
 
 exports.isArray = (param) =>{
-    return typeof param == "array" || param instanceof Array
+    return Array.isArray(param) || param instanceof Array
 }
 
 exports.isObject = (param) =>{

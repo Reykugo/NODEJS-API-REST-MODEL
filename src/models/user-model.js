@@ -35,7 +35,7 @@ schema.pre('save', async function() {
  * @param {String} candidatePassword Password to compare
  * @return {bool}                    Return true if match else return false
  **/
-schema.methods.comparePasswords = function (candidatePassword, cb) {
+schema.methods.comparePasswords = function (candidatePassword) {
     return bcrypt.compareSync(candidatePassword, this.password);
 };
 

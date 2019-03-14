@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const Names = require('../controllers/names-controller');
-const { isAdmin, idIsValid } = require('../utils/middlewares');
+const { idIsValid } = require('../utils/middlewares');
 
 const router = new Router();
 
