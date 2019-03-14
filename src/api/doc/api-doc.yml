@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/responses/User'
     post:
       tags:
         - Users
@@ -70,11 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: JohnDoe@email.com
-                createdOn: 2019-02-25T16:32:13.077Z
+                $ref: '#/components/responses/User'
         '400':
           $ref: '#/components/responses/BadRequest'
   '/users/{userId}':
@@ -97,11 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: JohnDoe@email.com
-                createdOn: 2019-02-25T16:32:13.077Z
+                $ref: '#/components/responses/User'
         '404':
           $ref: '#/components/responses/NotFound'
     put:
@@ -132,11 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: JohnDoe@email.com
-                createdOn: 2019-02-25T16:32:13.077Z
+                $ref: '#/components/responses/User'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -166,7 +154,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
+  responses: &ref_0
     NotFound:
       description: The specified resource was not found
       content:
@@ -206,22 +194,6 @@ components:
               - message
             example:
               error: PermissionDenied
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  schemas:
-    Authentication:
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-      required:
-        - id
-        - password
     User:
       type: object
       properties:
@@ -229,9 +201,15 @@ components:
           type: string
         email:
           type: string
-        password:
+        createdOn:
           type: string
-      required:
-        - id
-        - email
-        - password
+      example:
+        id: 5c740a7de95c6ee5b1c00640
+        email: JohnDoe@email.com
+        createdOn: 2019-02-25T16:32:13.077Z
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas: *ref_0

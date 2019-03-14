@@ -1,9 +1,8 @@
 const User = require('../models/user-model');
-const {exludeFromObject} = require('../utils/functions')
 
 exports.get = async(ctx) =>{
     let users = await User.find({})
-    return ctx.ok({users:users});
+    return ctx.ok({users});
 }
 
 exports.getUser = async(ctx) =>{
@@ -11,7 +10,7 @@ exports.getUser = async(ctx) =>{
     if(ctx.auth.id === id || ctx.auth.admin){
         let user = await User.findById(id);
         if(user)
-            return ctx.ok({user:user})
+            return ctx.ok({user})
         else
             return ctx.notFound({error:"NotFound"})
     }else{
@@ -20,18 +19,18 @@ exports.getUser = async(ctx) =>{
 }
 
 exports.create = async(ctx) => {
-    const reqData = exludeFromObject(ctx.request.body, ["_id"]);
+    const reqData = ctx.request.body;
     let user = new User(reqData)
-    let userIsNotvalid = user.validateSync()
-    if(userIsNotvalid){
+    let validation = user.validation(reqData, "update");
+    if(validation.error){
         return ctx.badRequest({error: 'FieldIncorrectOrMissing'})
     }else{
         const userExist = await User.findOne({ email: reqData.email });
         if(userExist){
             ctx.badRequest('UserAlreadyExists')
         }else{
-            let user = await user.save()
-            return ctx.ok({user:user})
+            await user.save()
+            return ctx.ok({user})
         }
     }
 }
@@ -44,7 +43,7 @@ exports.delete = async(ctx) =>{
 
 exports.update = async(ctx) =>{
     const id = ctx.params.id;
-    const reqData = exludeFromObject(ctx.request.body, ["_id"]);
+    const reqData = ctx.request.body;
     if (ctx.auth.id === id) {
         if(reqData.email && await User.findOne({email:reqData.email, _id:{ $ne: id }})){
             return ctx.badRequest({error:"EmailAlreadyExists"}) 
@@ -52,8 +51,8 @@ exports.update = async(ctx) =>{
             let user = await User.findById(id)
             if(user){
                 user = Object.assign(user, reqData);
-                let userIsNotValid = user.validateSync()
-                if(userIsNotValid){
+                let validation = user.validation(reqData, "update")
+                if(validation.error){
                     return ctx.badRequest({error:"FieldIncorrectOrMissing"})
                 }else{
                     await user.save()

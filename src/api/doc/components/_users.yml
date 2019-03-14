@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/responses/User'
     post:
       tags:
         - Users
@@ -40,11 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: "JohnDoe@email.com"
-                createdOn: 2019-02-25 16:32:13.077
+                $ref: '#/components/responses/User'
         400:
           $ref: '#/components/responses/BadRequest'
   /users/{userId}:
@@ -67,11 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: "JohnDoe@email.com"
-                createdOn: 2019-02-25 16:32:13.077
+                $ref: '#/components/responses/User'
         404:
           $ref: "#/components/responses/NotFound"
     put:
@@ -102,11 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: 5c740a7de95c6ee5b1c00640
-                email: "JohnDoe@email.com"
-                createdOn: 2019-02-25 16:32:13.077
+                $ref: '#/components/responses/User'            
         400:
           $ref: '#/components/responses/BadRequest'
         401:
@@ -137,6 +125,20 @@ paths:
             $ref: "#/components/responses/NotFound"
 
 components:
+  responses:
+    User:
+      type: object
+      properties:
+        id: 
+          type: string
+        email:
+          type: string
+        createdOn:
+          type: string
+      example:
+        id: 5c740a7de95c6ee5b1c00640
+        email: "JohnDoe@email.com"
+        createdOn: 2019-02-25 16:32:13.077
   schemas:
     User:
       type: object

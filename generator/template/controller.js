@@ -1,4 +1,3 @@
-const validator = require('validator');
 const Name = require('../models/name-model');
 const { isEmpty, isString, exludeFromObject } = require('../utils/functions');
 

@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config'); 
 const User = require('../models/user-model');
-const {isString} = require('../utils/functions')
+const joi = require('joi');
+const authValidator = require('../utils/validators/auth-validator');
 
 
 exports.login = async (ctx) => {
     const reqData = ctx.request.body
-    if (!isString(reqData.email) || !isString(reqData.password)) {
+    let validation = joi.validate(reqData, authValidator.auth);
+    if (validation.error) {
         return ctx.badRequest({error:"FieldsIncorrectOrMissing"})
     } else {
         const user = await User.findOne({ email: reqData.email }).select("+password")
@@ -23,7 +25,7 @@ exports.login = async (ctx) => {
 
                 // create a token string
                 const token = await jwt.sign(payload, config.JWTSECRET);
-                ctx.ok({token: token });
+                ctx.ok({token});
             } else {
                 return ctx.badRequest({error:"BadPassword"});
             }

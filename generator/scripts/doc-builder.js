@@ -79,6 +79,10 @@ exports.build = (order, exlude) =>{
         headerComponent.paths = {}
     }
 
+    if(!headerComponent.components.responses){
+        headerComponent.components.responses = {}
+    }
+
     if (!headerComponent.components.schemas) {
         headerComponent.components.schemas = {}
     }
@@ -95,6 +99,9 @@ exports.build = (order, exlude) =>{
             }
             if(componentDoc.components.schemas){
                 headerComponent.components.schemas = Object.assign(headerComponent.components.schemas, componentDoc.components.schemas);
+            }
+            if(componentDoc.components.responses){
+                headerComponent.components.schemas = Object.assign(headerComponent.components.responses, componentDoc.components.responses);
             }
         } catch (e) {
             console.log(e);

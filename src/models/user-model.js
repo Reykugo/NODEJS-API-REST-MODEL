@@ -5,16 +5,12 @@ This file is used to create schema of User for bdd
 const config = require('../config');
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const {isString} = require('../utils/functions');
-const validator = require('validator')
 const Schema = mongoose.Schema; //Create mongoose Schema
-
-const isEmail = (string) =>{
-    return isString(string) && validator.isEmail(string)
-}
+let joi = require('joi')
+let userValidator = require('../utils/validators/user-validator');
 
 let schema = new Schema({
-    email: { type: String, required: true, validate:[isEmail ,"EmailNotValid"]},
+    email: { type: String, required: true, unique:true},
     password: { type: String, required: true, select:false },
     admin: {type: Boolean, required:true, default:false},
     createdOn: { type: Date, default: Date.now },
@@ -42,6 +38,12 @@ schema.pre('save', async function() {
 schema.methods.comparePasswords = function (candidatePassword, cb) {
     return bcrypt.compareSync(candidatePassword, this.password);
 };
+
+schema.methods.validation = function(obj, shemaType){
+    let joiSchema = userValidator[shemaType];
+    return joi.validate(obj, joiSchema);
+}
+
 
 module.exports = mongoose.model('User', schema, 'user');
 
