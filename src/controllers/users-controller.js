@@ -2,7 +2,7 @@ const User = require('../models/user-model');
 
 exports.get = async(ctx) =>{
     let users = await User.find({})
-    return ctx.ok({users});
+    return ctx.ok(users);
 }
 
 exports.getUser = async(ctx) =>{
@@ -10,7 +10,7 @@ exports.getUser = async(ctx) =>{
     if(ctx.auth.id === id || ctx.auth.admin){
         let user = await User.findById(id);
         if(user)
-            return ctx.ok({user})
+            return ctx.ok(user)
         else
             return ctx.notFound({error:"NotFound"})
     }else{
@@ -30,7 +30,7 @@ exports.create = async(ctx) => {
             ctx.badRequest('UserAlreadyExists')
         }else{
             await user.save()
-            return ctx.ok({user})
+            return ctx.ok(user)
         }
     }
 }
@@ -56,7 +56,7 @@ exports.update = async(ctx) =>{
                     return ctx.badRequest({error:"FieldIncorrectOrMissing"})
                 }else{
                     await user.save()
-                    return ctx.ok({user: user})
+                    return ctx.ok(user)
                 }
             }else{
                 return ctx.notFound({error:"NotFound"})
